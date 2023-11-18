@@ -1,9 +1,11 @@
 use nannou::{color::Gradient, prelude::*};
 // use rand::Rng;
+mod utils;
+use utils::convert_to_lsrgb;
 
 const WINDOW_HEIGHT: u32 = 800;
 const WINDOW_WIDTH: u32 = 500;
-const BACKGROUND_STEP: usize = 20;
+const BACKGROUND_STEP: usize = 10;
 
 fn main() {
     nannou::app(model).update(update).run();
@@ -33,10 +35,9 @@ fn view(app: &App, _model: &Model, frame: Frame) {
 
     let origin_rect = Rect::from_w_h(500.0, BACKGROUND_STEP as f32).top_left_of(window);
 
-    // #5b1a72 -> 91, 26, 114
-    let color_start = lin_srgb(0.58, 0.25, 0.96);
-    // #ff5766 -> 255, 87, 102
-    let color_end = lin_srgb(0.96, 0.25, 0.57);
+    let color_start = convert_to_lsrgb(71, 6, 94);
+
+    let color_end = convert_to_lsrgb(215, 47, 62);
 
     let gradient = Gradient::new(vec![color_start, color_end, color_start]);
 
