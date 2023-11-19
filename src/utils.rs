@@ -13,3 +13,9 @@ pub fn convert_to_lsrgb(r: u32, g: u32, b: u32) -> Rgb<Linear<Srgb>> {
 
     lin_srgb(lin_r, lin_g, lin_b)
 }
+
+pub fn calculate_distance(pos: Vec2, origin: Vec2) -> f32 {
+    let distance = ((pos[0] - origin[0]).powi(2) + (pos[1] - origin[1]).powi(2)).sqrt();
+
+    distance
+}
