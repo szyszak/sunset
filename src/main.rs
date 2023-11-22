@@ -1,44 +1,20 @@
 use nannou::{color::Gradient, prelude::*};
 use rand::Rng;
+
 mod constants;
 use constants::CONSTANTS;
+
+mod enums;
+use enums::Direction;
+
 mod utils;
 use utils::{calculate_distance, convert_to_lsrgb};
 
+mod sun;
+use sun::SunAfterimage;
+
 fn main() {
     nannou::app(model).update(update).run();
-}
-
-enum Direction {
-    Forwards,
-    Backwards,
-}
-
-struct SunAfterimage {
-    x: f32,
-    y: f32,
-    velocity: Vec2,
-    direction: Direction,
-}
-
-impl SunAfterimage {
-    fn new() -> SunAfterimage {
-        let mut rng = rand::thread_rng();
-
-        let random_x_vel: f32 = rng.gen_range(
-            -CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY,
-        );
-        let random_y_vel: f32 = rng.gen_range(
-            -CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY,
-        );
-
-        SunAfterimage {
-            x: CONSTANTS.SUN_XY[0],
-            y: CONSTANTS.SUN_XY[1],
-            velocity: Vec2::new(random_x_vel, random_y_vel),
-            direction: Direction::Forwards,
-        }
-    }
 }
 
 struct Model {

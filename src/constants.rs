@@ -20,7 +20,7 @@ impl Constants {
             BACKGROUND_STEP: 10,
             SUN_XY: Vec2::new(-100.0, 200.0),
             SUN_AFTERIMAGES_COUNT: 4,
-            SUN_AFTERIMAGE_MAX_VALOCITY: 0.3,
+            SUN_AFTERIMAGE_MAX_VALOCITY: 0.2,
             SUN_AFTERIMAGE_MAX_DISTANCE: 5.0,
         }
     }
