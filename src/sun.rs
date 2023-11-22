@@ -4,8 +4,7 @@ use nannou::prelude::*;
 use rand::Rng;
 
 pub struct SunAfterimage {
-    pub x: f32,
-    pub y: f32,
+    pub position: Vec2,
     pub velocity: Vec2,
     pub direction: Direction,
 }
@@ -15,15 +14,14 @@ impl SunAfterimage {
         let mut rng = rand::thread_rng();
 
         let random_x_vel: f32 = rng.gen_range(
-            -CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY,
+            -CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY,
         );
         let random_y_vel: f32 = rng.gen_range(
-            -CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VALOCITY,
+            -CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY..=CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY,
         );
 
         SunAfterimage {
-            x: CONSTANTS.SUN_XY[0],
-            y: CONSTANTS.SUN_XY[1],
+            position: Vec2::new(CONSTANTS.SUN_POSITION.x, CONSTANTS.SUN_POSITION.y),
             velocity: Vec2::new(random_x_vel, random_y_vel),
             direction: Direction::Forwards,
         }
