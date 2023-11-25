@@ -1,17 +1,18 @@
 use nannou::{color::Gradient, prelude::*};
-use rand::Rng;
 
 mod constants;
 use constants::CONSTANTS;
 
 mod enums;
-use enums::Direction;
 
 mod utils;
-use utils::{calculate_distance, convert_to_lsrgb};
+use utils::convert_to_lsrgb;
 
 mod sun;
 use sun::SunAfterimage;
+
+mod reflection;
+use reflection::Reflection;
 
 fn main() {
     nannou::app(model).update(update).run();
@@ -20,6 +21,7 @@ fn main() {
 struct Model {
     _window: window::Id,
     sun_afterimages: Vec<SunAfterimage>,
+    reflections: Vec<Reflection>,
 }
 
 fn model(app: &App) -> Model {
@@ -36,50 +38,26 @@ fn model(app: &App) -> Model {
         sun_afterimages.push(SunAfterimage::new());
     }
 
+    let mut reflections = vec![];
+
+    for _ in 0..=CONSTANTS.REFLECTION_LINES_COUNT {
+        reflections.push(Reflection::new());
+    }
+
     Model {
         _window,
         sun_afterimages,
+        reflections,
     }
 }
 
 fn update(_app: &App, _model: &mut Model, _update: Update) {
     for sun_afterimage in &mut _model.sun_afterimages {
-        let distance = calculate_distance(sun_afterimage.position, CONSTANTS.SUN_POSITION);
+        sun_afterimage.update();
+    }
 
-        match sun_afterimage.direction {
-            Direction::Forwards => {
-                sun_afterimage.position.x += sun_afterimage.velocity.x;
-                sun_afterimage.position.y += sun_afterimage.velocity.y;
-
-                if distance >= CONSTANTS.SUN_AFTERIMAGE_MAX_DISTANCE {
-                    sun_afterimage.direction = Direction::Backwards;
-                }
-            }
-            Direction::Backwards => {
-                sun_afterimage.position.x -= sun_afterimage.velocity.x;
-                sun_afterimage.position.y -= sun_afterimage.velocity.y;
-
-                if distance <= 0.0 {
-                    sun_afterimage.position.x = CONSTANTS.SUN_POSITION.x;
-                    sun_afterimage.position.y = CONSTANTS.SUN_POSITION.y;
-
-                    sun_afterimage.direction = Direction::Forwards;
-
-                    let mut rng = rand::thread_rng();
-
-                    let random_x_vel: f32 = rng.gen_range(
-                        -CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY
-                            ..=CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY,
-                    );
-                    let random_y_vel: f32 = rng.gen_range(
-                        -CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY
-                            ..=CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY,
-                    );
-
-                    sun_afterimage.velocity = Vec2::new(random_x_vel, random_y_vel);
-                }
-            }
-        }
+    for reflection in &mut _model.reflections {
+        reflection.update();
     }
 }
 
@@ -115,11 +93,25 @@ fn view(app: &App, _model: &Model, frame: Frame) {
 
     // sun main
     draw.ellipse()
-        .xy(Vec2::new(
-            CONSTANTS.SUN_POSITION[0],
-            CONSTANTS.SUN_POSITION[1],
-        ))
+        .xy(CONSTANTS.SUN_POSITION)
         .color(Rgb8::new(255, 183, 15));
+
+    // sun reflection
+    for reflection in &_model.reflections {
+        draw.line()
+            .points(
+                Point2::new(
+                    reflection.position.x - reflection.width / 2 as f32,
+                    reflection.position.y,
+                ),
+                Point2::new(
+                    reflection.position.x + reflection.width / 2 as f32,
+                    reflection.position.y,
+                ),
+            )
+            .weight(reflection.thickness)
+            .color(rgba(255, 255, 255, reflection.alpha));
+    }
 
     draw.to_frame(app, &frame).unwrap();
 }

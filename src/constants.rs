@@ -10,6 +10,9 @@ pub struct Constants {
     pub SUN_AFTERIMAGES_COUNT: usize,
     pub SUN_AFTERIMAGE_MAX_VELOCITY: f32,
     pub SUN_AFTERIMAGE_MAX_DISTANCE: f32,
+    pub REFLECTION_LINES_COUNT: usize,
+    pub REFLECTION_MAX_OFFSET: f32,
+    pub ALPHA_DISTANCE_SCALE: f32,
 }
 
 impl Constants {
@@ -22,6 +25,9 @@ impl Constants {
             SUN_AFTERIMAGES_COUNT: 4,
             SUN_AFTERIMAGE_MAX_VELOCITY: 0.2,
             SUN_AFTERIMAGE_MAX_DISTANCE: 5.0,
+            REFLECTION_LINES_COUNT: 200,
+            REFLECTION_MAX_OFFSET: 80.0,
+            ALPHA_DISTANCE_SCALE: 8000.0,
         }
     }
 }
