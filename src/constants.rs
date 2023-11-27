@@ -12,7 +12,9 @@ pub struct Constants {
     pub SUN_AFTERIMAGE_MAX_DISTANCE: f32,
     pub REFLECTION_LINES_COUNT: usize,
     pub REFLECTION_MAX_OFFSET: f32,
+    pub REFLECTION_BLINK_CHANCE: u32,
     pub ALPHA_DISTANCE_SCALE: f32,
+    pub REFLECTION_BLINK_SPEED: f32,
 }
 
 impl Constants {
@@ -27,7 +29,9 @@ impl Constants {
             SUN_AFTERIMAGE_MAX_DISTANCE: 5.0,
             REFLECTION_LINES_COUNT: 200,
             REFLECTION_MAX_OFFSET: 80.0,
+            REFLECTION_BLINK_CHANCE: 1,
             ALPHA_DISTANCE_SCALE: 8000.0,
+            REFLECTION_BLINK_SPEED: 0.3,
         }
     }
 }

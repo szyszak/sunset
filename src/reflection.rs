@@ -8,6 +8,9 @@ use rand::Rng;
 pub struct Reflection {
     pub width: f32,
     pub thickness: f32,
+    pub starting_thickness: f32,
+    pub is_blinking: bool,
+    pub blinking_direction: Direction,
     pub position: Vec2,
     pub starting_x: f32,
     pub direction: Direction,
@@ -36,6 +39,9 @@ impl Reflection {
         Reflection {
             width,
             thickness,
+            starting_thickness: thickness,
+            is_blinking: false,
+            blinking_direction: Direction::Forwards,
             position,
             starting_x: position.x,
             direction: Direction::random(),
@@ -59,6 +65,31 @@ impl Reflection {
 
                 if self.position.x < self.starting_x - self.max_distance {
                     self.direction = Direction::Forwards
+                }
+            }
+        }
+
+        if self.is_blinking == true {
+            self.blink();
+        }
+    }
+
+    pub fn blink(&mut self) {
+        match self.blinking_direction {
+            Direction::Forwards => {
+                self.thickness -= CONSTANTS.REFLECTION_BLINK_SPEED;
+
+                if self.thickness <= 0.0 {
+                    self.blinking_direction = Direction::Backwards;
+                }
+            }
+            Direction::Backwards => {
+                self.thickness += CONSTANTS.REFLECTION_BLINK_SPEED;
+
+                if self.thickness >= self.starting_thickness {
+                    self.thickness = self.starting_thickness;
+                    self.blinking_direction = Direction::Forwards;
+                    self.is_blinking = false;
                 }
             }
         }

@@ -6,7 +6,7 @@ use constants::CONSTANTS;
 mod enums;
 
 mod utils;
-use utils::convert_to_lsrgb;
+use utils::{convert_to_lsrgb, random_with_probability};
 
 mod sun;
 use sun::SunAfterimage;
@@ -58,6 +58,14 @@ fn update(_app: &App, _model: &mut Model, _update: Update) {
 
     for reflection in &mut _model.reflections {
         reflection.update();
+
+        if reflection.is_blinking == false {
+            let should_blink = random_with_probability(CONSTANTS.REFLECTION_BLINK_CHANCE);
+
+            if should_blink == true {
+                reflection.is_blinking = true;
+            }
+        }
     }
 }
 

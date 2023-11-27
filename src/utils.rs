@@ -7,6 +7,7 @@ use nannou::{
 };
 
 use crate::constants::CONSTANTS;
+use rand::Rng;
 use std::cmp;
 
 pub fn convert_to_lsrgb(r: u32, g: u32, b: u32) -> Rgb<Linear<Srgb>> {
@@ -32,4 +33,14 @@ pub fn calculate_alpha(origin_x: f32, object_x: f32) -> u8 {
     );
 
     alpha
+}
+
+pub fn random_with_probability(probability_percent: u32) -> bool {
+    let mut rng = rand::thread_rng();
+
+    let random_number = rng.gen_range(0..=99);
+
+    let result = random_number < probability_percent;
+
+    result
 }
