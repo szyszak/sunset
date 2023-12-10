@@ -1,5 +1,5 @@
-pub use crate::constants::CONSTANTS;
-pub use crate::enums::Direction;
+use crate::constants::CONSTANTS;
+use crate::enums::Direction;
 use crate::utils::calculate_distance;
 use nannou::prelude::*;
 use rand::Rng;
@@ -22,8 +22,8 @@ impl SunAfterimage {
         );
 
         SunAfterimage {
-            position: Vec2::new(CONSTANTS.SUN_POSITION.x, CONSTANTS.SUN_POSITION.y),
-            velocity: Vec2::new(random_x_vel, random_y_vel),
+            position: vec2(CONSTANTS.SUN_POSITION.x, CONSTANTS.SUN_POSITION.y),
+            velocity: vec2(random_x_vel, random_y_vel),
             direction: Direction::Forwards,
         }
     }
@@ -61,7 +61,7 @@ impl SunAfterimage {
                             ..=CONSTANTS.SUN_AFTERIMAGE_MAX_VELOCITY,
                     );
 
-                    self.velocity = Vec2::new(random_x_vel, random_y_vel);
+                    self.velocity = vec2(random_x_vel, random_y_vel);
                 }
             }
         }

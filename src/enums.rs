@@ -17,3 +17,20 @@ impl Direction {
         }
     }
 }
+
+pub enum StarOrigin {
+    Side,
+    Bottom,
+}
+
+impl StarOrigin {
+    pub fn random() -> Self {
+        let mut rng = rand::thread_rng();
+
+        if rng.gen::<bool>() {
+            StarOrigin::Side
+        } else {
+            StarOrigin::Bottom
+        }
+    }
+}

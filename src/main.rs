@@ -14,6 +14,9 @@ use sun::SunAfterimage;
 mod reflection;
 use reflection::Reflection;
 
+mod star;
+use star::Star;
+
 fn main() {
     nannou::app(model).update(update).run();
 }
@@ -22,6 +25,7 @@ struct Model {
     _window: window::Id,
     sun_afterimages: Vec<SunAfterimage>,
     reflections: Vec<Reflection>,
+    stars: Vec<Star>,
 }
 
 fn model(app: &App) -> Model {
@@ -44,19 +48,29 @@ fn model(app: &App) -> Model {
         reflections.push(Reflection::new());
     }
 
+    let mut stars = vec![];
+
+    for _ in 0..=CONSTANTS.STARS_COUNT {
+        stars.push(Star::new());
+    }
+
     Model {
         _window,
         sun_afterimages,
         reflections,
+        stars,
     }
 }
 
 fn update(_app: &App, _model: &mut Model, _update: Update) {
-    for sun_afterimage in &mut _model.sun_afterimages {
-        sun_afterimage.update();
-    }
+    _model
+        .sun_afterimages
+        .iter_mut()
+        .for_each(|sun_afterimage| {
+            sun_afterimage.update();
+        });
 
-    for reflection in &mut _model.reflections {
+    _model.reflections.iter_mut().for_each(|reflection| {
         reflection.update();
 
         if reflection.is_blinking == false {
@@ -66,7 +80,15 @@ fn update(_app: &App, _model: &mut Model, _update: Update) {
                 reflection.is_blinking = true;
             }
         }
-    }
+    });
+
+    _model.stars.iter_mut().for_each(|star| {
+        star.update();
+
+        if star.is_out_of_bounds() {
+            star.reset();
+        }
+    })
 }
 
 fn view(app: &App, _model: &Model, frame: Frame) {
@@ -90,6 +112,19 @@ fn view(app: &App, _model: &Model, frame: Frame) {
             .y(origin_rect.y() - i as f32)
             .wh(origin_rect.wh())
             .color(color);
+    }
+
+    // stars
+    for star in &_model.stars {
+        draw.ellipse()
+            .xy(star.position)
+            .w_h(star.size, star.size)
+            .color(Rgba8::new(255, 255, 255, 180));
+
+        draw.ellipse()
+            .x_y(star.position.x, -star.position.y)
+            .w_h(star.size, star.size)
+            .color(Rgba8::new(255, 255, 255, 30));
     }
 
     // sun afterimages

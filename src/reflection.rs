@@ -1,5 +1,5 @@
-pub use crate::constants::CONSTANTS;
-pub use crate::enums::Direction;
+use crate::constants::CONSTANTS;
+use crate::enums::Direction;
 use crate::utils::calculate_alpha;
 use nannou::prelude::*;
 use rand::Rng;
@@ -25,7 +25,7 @@ impl Reflection {
 
         let width: f32 = rng.gen_range(10.0..30.0);
         let thickness: f32 = rng.gen_range(2.0..4.0);
-        let position: Vec2 = Vec2::new(
+        let position: Vec2 = vec2(
             rng.gen_range(
                 CONSTANTS.SUN_POSITION.x - CONSTANTS.REFLECTION_MAX_OFFSET
                     ..CONSTANTS.SUN_POSITION.x + CONSTANTS.REFLECTION_MAX_OFFSET,

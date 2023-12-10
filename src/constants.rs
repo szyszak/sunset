@@ -15,6 +15,8 @@ pub struct Constants {
     pub REFLECTION_BLINK_CHANCE: u32,
     pub ALPHA_DISTANCE_SCALE: f32,
     pub REFLECTION_BLINK_SPEED: f32,
+    pub STARS_COUNT: usize,
+    pub STAR_VELOCITY: f32,
 }
 
 impl Constants {
@@ -23,15 +25,17 @@ impl Constants {
             WINDOW_HEIGHT: 800,
             WINDOW_WIDTH: 500,
             BACKGROUND_STEP: 10,
-            SUN_POSITION: Vec2::new(-100.0, 200.0),
+            SUN_POSITION: vec2(-100.0, 200.0),
             SUN_AFTERIMAGES_COUNT: 4,
             SUN_AFTERIMAGE_MAX_VELOCITY: 0.2,
             SUN_AFTERIMAGE_MAX_DISTANCE: 5.0,
             REFLECTION_LINES_COUNT: 200,
-            REFLECTION_MAX_OFFSET: 80.0,
+            REFLECTION_MAX_OFFSET: 90.0,
             REFLECTION_BLINK_CHANCE: 1,
             ALPHA_DISTANCE_SCALE: 8000.0,
             REFLECTION_BLINK_SPEED: 0.3,
+            STARS_COUNT: 200,
+            STAR_VELOCITY: 0.1,
         }
     }
 }
